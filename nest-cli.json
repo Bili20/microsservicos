@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": ".",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": false
+  },
+  "monorepo": true,
+  "root": ".",
+  "projects": {
+    "pessoa": {
+      "type": "application",
+      "root": "apps/pessoa",
+      "entryFile": "main",
+      "sourceRoot": "apps/pessoa/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/pessoa/tsconfig.app.json"
+      }
+    },
+    "produto": {
+      "type": "application",
+      "root": "apps/produto",
+      "entryFile": "main",
+      "sourceRoot": "apps/produto/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/produto/tsconfig.app.json"
+      }
+    }
+  }
+}
