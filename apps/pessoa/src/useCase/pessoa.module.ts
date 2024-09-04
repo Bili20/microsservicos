@@ -16,7 +16,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         name: 'PESSOA_SERVICE',
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://localhost:5672'],
+          urls: ['amqp://admin:admin@rabbitmq:5672'],
           queue: 'pessoa_queue',
           queueOptions: {
             durable: true,
