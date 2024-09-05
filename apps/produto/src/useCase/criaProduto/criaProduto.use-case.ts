@@ -11,6 +11,7 @@ export class CriaProdutoUseCase {
   async execute(param: CriaProdutoDto) {
     try {
       const produto = new Produto(param);
+      produto.nome = produto.nome.toLowerCase();
       await this.produtoRepo.create(produto);
     } catch (e) {
       if (e.code == 23505) {
