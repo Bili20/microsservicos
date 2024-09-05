@@ -26,6 +26,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/produto/tsconfig.app.json"
       }
+    },
+    "pedido": {
+      "type": "application",
+      "root": "apps/pedido",
+      "entryFile": "main",
+      "sourceRoot": "apps/pedido/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/pedido/tsconfig.app.json"
+      }
     }
   }
 }
