@@ -14,7 +14,6 @@ export class BuscaUmaPessoaUseCase {
   async execute(id: number) {
     try {
       const data = await this.pessoaRepo.findOne(id);
-      console.log(this.rabbitClient);
       this.rabbitClient.emit('pessoa_acahada', data);
       return data;
     } catch (e) {
