@@ -1,5 +1,6 @@
-import { Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { CriaPedidoUseCase } from './criaPedido.use-case';
+import { CriaPedidoDto } from '../models/dtos/criaPedido.dto';
 
 @Controller('pedido')
 export class CriaPedidoController {
@@ -7,7 +8,7 @@ export class CriaPedidoController {
   private readonly criaPedidoUseCase: CriaPedidoUseCase;
 
   @Post()
-  async create() {
-    return await this.criaPedidoUseCase.execute();
+  async create(@Body() param: CriaPedidoDto) {
+    return await this.criaPedidoUseCase.execute(param);
   }
 }

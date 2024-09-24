@@ -6,7 +6,6 @@ import {
   Payload,
   RmqContext,
 } from '@nestjs/microservices';
-import { Produto } from '../../models/entites/produto.entity';
 
 @Controller()
 export class AtualizaEstoqueController {
@@ -14,7 +13,7 @@ export class AtualizaEstoqueController {
   private readonly atualizaEstoqueUseCase: AtualizaEstoqueUseCase;
 
   @MessagePattern('pedido_queue')
-  async update(@Payload() data: string, @Ctx() context: RmqContext) {
+  async update(@Payload() data: any, @Ctx() context: RmqContext) {
     return await this.atualizaEstoqueUseCase.execute(data, context);
   }
 }

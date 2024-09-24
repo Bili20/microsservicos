@@ -19,6 +19,9 @@ export class Pedido {
   @Column({ type: 'decimal', nullable: false })
   total: number;
 
+  @Column({ nullable: false, default: 'Em aguardo' })
+  status: string;
+
   @Column({ nullable: false })
   id_pessoa: number;
 
