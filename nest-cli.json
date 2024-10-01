@@ -35,6 +35,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/pedido/tsconfig.app.json"
       }
+    },
+    "notificacao": {
+      "type": "application",
+      "root": "apps/notificacao",
+      "entryFile": "main",
+      "sourceRoot": "apps/notificacao/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/notificacao/tsconfig.app.json"
+      }
     }
   }
 }

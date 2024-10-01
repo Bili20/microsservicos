@@ -12,7 +12,7 @@ async function bootstrap() {
     ProdutoModule,
     new FastifyAdapter(),
   );
-  const microservice = app.connectMicroservice<MicroserviceOptions>({
+  app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.RMQ,
     options: {
       urls: ['amqp://admin:admin@localhost:5672'],

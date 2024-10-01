@@ -1,6 +1,6 @@
 import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { CriaPedidoUseCase } from './criaPedido.use-case';
-import { CriaPedidoDto } from '../models/dtos/criaPedido.dto';
+import { CriaPedidoDto } from '../../models/dtos/criaPedido.dto';
 
 @Controller('pedido')
 export class CriaPedidoController {

@@ -10,7 +10,7 @@ export class AtualizaEstoqueUseCase {
   async execute(data: any, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef();
     const orinalMsg = context.getMessage();
-    // falata validar quando der erro oqq deve acontecer.
+    // falta validar quando der erro oqq deve acontecer.
     await Promise.all(
       data.param.produtos.map(async (data) => {
         const produto = await this.produtoRepo.findOne(data.id_produto);
@@ -26,6 +26,7 @@ export class AtualizaEstoqueUseCase {
         await this.produtoRepo.update(data.id_produto, produto);
       }),
     );
+    console.log('alo');
 
     channel.ack(orinalMsg);
   }
