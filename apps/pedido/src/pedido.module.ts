@@ -20,7 +20,7 @@ import { PedidoProduto } from './models/entities/pedidoProduto.entity';
         transport: Transport.RMQ,
         options: {
           urls: ['amqp://admin:admin@localhost:5672'],
-          queue: 'pedido_queue',
+          //queue: 'pedido_queue',
           queueOptions: {
             durable: true,
             bindExchange: {

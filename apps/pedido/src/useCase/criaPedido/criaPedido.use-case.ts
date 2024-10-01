@@ -27,7 +27,7 @@ export class CriaPedidoUseCase {
         id_pedido: pedido.id,
         produtos: param.produtos,
       });
-      this.rabbitmqService.instance.emit('pedido_queue', {
+      this.rabbitmqService.instance.emit('pedido_exchange', {
         param,
       });
     } catch (e) {

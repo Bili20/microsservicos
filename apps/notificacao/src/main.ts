@@ -10,9 +10,13 @@ async function bootstrap() {
       options: {
         urls: ['amqp://admin:admin@localhost:5672'],
         noAck: false,
-        queue: 'pedido_queue',
+        queue: 'notificacao_queue',
         queueOptions: {
           durable: true,
+          bindExchange: {
+            exchange: 'pedido_exchange',
+            exchangeType: 'fanout',
+          },
         },
       },
     },
