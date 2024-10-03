@@ -12,8 +12,9 @@ export class AtualizaEstoqueController {
   @Inject(AtualizaEstoqueUseCase)
   private readonly atualizaEstoqueUseCase: AtualizaEstoqueUseCase;
 
-  @MessagePattern('pedido_queue')
+  @MessagePattern('produto_queue')
   async update(@Payload() data: any, @Ctx() context: RmqContext) {
+    console.log('alaaaaaa');
     return await this.atualizaEstoqueUseCase.execute(data, context);
   }
 }

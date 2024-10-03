@@ -26,8 +26,6 @@ export class AtualizaEstoqueUseCase {
         await this.produtoRepo.update(data.id_produto, produto);
       }),
     );
-    console.log('alo');
-
     channel.ack(orinalMsg);
   }
 }

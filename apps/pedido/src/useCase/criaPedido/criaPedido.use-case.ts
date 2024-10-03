@@ -1,10 +1,10 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { IPedidoRepo } from '../../models/interfaces/pedidoRepo.interface';
-import { RabbitmqService } from '../../rabbitmq/rabbitmq.service';
 import { Pedido } from '../../models/entities/pedido.entity';
 import { ProdutosQuantidadeDTO } from '../../models/dtos/produtosQuantidade.dto';
 import { CriaPedidoDto } from '../../models/dtos/criaPedido.dto';
 import { CriaPedidoProdutoUseCase } from '../criaPedidoProduto/criaPedidoProduto.use-case';
+import { ClientRMQ } from '@nestjs/microservices';
 
 @Injectable()
 export class CriaPedidoUseCase {
@@ -12,8 +12,10 @@ export class CriaPedidoUseCase {
   private readonly pedidoRepo: IPedidoRepo;
   @Inject(CriaPedidoProdutoUseCase)
   private readonly criaPedidoProdutoUseCase: CriaPedidoProdutoUseCase;
-  @Inject(RabbitmqService)
-  private readonly rabbitmqService: RabbitmqService;
+  @Inject('PRODUTO_SERVICE')
+  public readonly instanceProduto: ClientRMQ;
+  @Inject('NOTIFICACAO_SERVICE')
+  public readonly instanceNotificacao: ClientRMQ;
   // enviar para uma fila de email tambem para que o sistema de email saiba que ocorreu um pedido
   async execute(param: CriaPedidoDto) {
     try {
@@ -27,9 +29,10 @@ export class CriaPedidoUseCase {
         id_pedido: pedido.id,
         produtos: param.produtos,
       });
-      this.rabbitmqService.instance.emit('pedido_exchange', {
+      this.instanceProduto.emit('produto_queue', {
         param,
       });
+      this.instanceNotificacao.emit('notificacao_queue', { param });
     } catch (e) {
       throw new BadRequestException({ message: 'Erro ao gerar pedido.' });
     }

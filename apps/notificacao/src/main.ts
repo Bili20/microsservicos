@@ -13,10 +13,6 @@ async function bootstrap() {
         queue: 'notificacao_queue',
         queueOptions: {
           durable: true,
-          bindExchange: {
-            exchange: 'pedido_exchange',
-            exchangeType: 'fanout',
-          },
         },
       },
     },

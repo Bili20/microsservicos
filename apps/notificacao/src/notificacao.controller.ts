@@ -11,8 +11,9 @@ import { NotificacaoService } from './notificacao.service';
 export class NotificacaoController {
   constructor(private readonly notificacaoService: NotificacaoService) {}
 
-  @MessagePattern('pedido_queue')
+  @MessagePattern('notificacao_queue')
   getHello(@Payload() data: any, @Ctx() context: RmqContext) {
+    console.log('alooooo');
     return this.notificacaoService.execute(data, context);
   }
 }

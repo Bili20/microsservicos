@@ -18,7 +18,6 @@ export class NotificacaoService {
     const pessoa = await this.buscaUmaPessoaUseCase.execute(
       data.param.id_pessoa,
     );
-    console.log('alooooo');
 
     await this.enviaEmail(pessoa);
     channel.ack(orinalMsg);
@@ -28,7 +27,7 @@ export class NotificacaoService {
     await this.mailerService.sendMail({
       to: pessoa.email,
       from: 'teste@gmail.com',
-      subject: 'Monolito',
+      subject: 'Microsservico',
       html: `<!DOCTYPE html>
 <html lang="pt-br">
   <head>
