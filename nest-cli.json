@@ -44,6 +44,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/notificacao/tsconfig.app.json"
       }
+    },
+    "nota-fiscal": {
+      "type": "application",
+      "root": "apps/nota-fiscal",
+      "entryFile": "main",
+      "sourceRoot": "apps/nota-fiscal/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/nota-fiscal/tsconfig.app.json"
+      }
     }
   }
 }

@@ -16,10 +16,11 @@ export class CriaPedidoUseCase {
   public readonly instanceProduto: ClientRMQ;
   @Inject('NOTIFICACAO_SERVICE')
   public readonly instanceNotificacao: ClientRMQ;
-  // enviar para uma fila de email tambem para que o sistema de email saiba que ocorreu um pedido
+  @Inject('NOTA_FISCAL_SERVICE')
+  public readonly intanceNotaFiscal: ClientRMQ;
+
   async execute(param: CriaPedidoDto) {
     try {
-      // quando der erro pesquisar oqq deve ser  feito com a fila.
       const pedidoArray = this.geraArrayDosProdutosDoPedido(
         param.id_pessoa,
         param.produtos,
@@ -29,10 +30,12 @@ export class CriaPedidoUseCase {
         id_pedido: pedido.id,
         produtos: param.produtos,
       });
+      param.id_pedido = pedido.id;
       this.instanceProduto.emit('produto_queue', {
         param,
       });
       this.instanceNotificacao.emit('notificacao_queue', { param });
+      this.intanceNotaFiscal.emit('nota_fiscal_queue', { param });
     } catch (e) {
       throw new BadRequestException({ message: 'Erro ao gerar pedido.' });
     }

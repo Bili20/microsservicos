@@ -36,6 +36,17 @@ import { PedidoProduto } from './models/entities/pedidoProduto.entity';
           },
         },
       },
+      {
+        name: 'NOTA_FISCAL_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: ['amqp://admin:admin@localhost:5672'],
+          queue: 'nota_fiscal_queue',
+          queueOptions: {
+            durable: true,
+          },
+        },
+      },
     ]),
     TypeOrmModule.forFeature([Pedido, PedidoProduto]),
   ],

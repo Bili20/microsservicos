@@ -9,11 +9,14 @@ import { CriaPessoaDto } from '../../models/dtos/criaPessoa.dto';
 import { CriaEnderecoDto } from '../../models/dtos/criaEndereco.dto';
 import { isCPF } from 'validation-br';
 import { Pessoa } from '../../models/entities/pessoa.entity';
+import { CriaEnderecoUseCase } from '../criaEndereco/criaEndereco.use-case';
 
 @Injectable()
 export class CriaPessoaUseCase {
   @Inject('IPessoaRepo')
   private readonly pessoaRepo: IPessoaRepo;
+  @Inject(CriaEnderecoUseCase)
+  private readonly criaEnderecoUseCase: CriaEnderecoUseCase;
 
   async execute(param: CriaPessoaDto & { endereco?: CriaEnderecoDto }) {
     try {
@@ -31,7 +34,7 @@ export class CriaPessoaUseCase {
       const dataPessoa = await this.pessoaRepo.create(pessoa);
       if (param.endereco) {
         param.endereco.id_pessoa = dataPessoa.id;
-        // aqui cria o endereco
+        await this.criaEnderecoUseCase.execute(param.endereco);
       }
     } catch (e) {
       if (e.code == 23505) {

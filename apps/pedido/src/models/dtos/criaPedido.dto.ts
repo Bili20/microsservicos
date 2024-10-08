@@ -5,6 +5,9 @@ export class CriaPedidoDto {
   @IsNumber()
   id_pessoa: number;
 
+  @IsNumber()
+  id_pedido: number;
+
   @IsArray()
   produtos: ProdutosQuantidadeDTO[];
 }

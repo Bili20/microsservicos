@@ -6,9 +6,14 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Pessoa } from './pessoa.entity';
+import { CriaEnderecoDto } from '../dtos/criaEndereco.dto';
 
 @Entity('endereco')
 export class Endereco {
+  constructor(props?: CriaEnderecoDto) {
+    Object.assign(this, props);
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 

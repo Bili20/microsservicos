@@ -8,6 +8,9 @@ import { BuscaUmaPessoaController } from './useCase/buscaUmaPessoa/buscaUmaPesso
 import { BuscaUmaPessoaUseCase } from './useCase/buscaUmaPessoa/buscaUmapessoa.use-case';
 import { CriaPessoaController } from './useCase/criaPessoa/criaPessoa.controller';
 import { CriaPessoaUseCase } from './useCase/criaPessoa/criaPessoa.use-case';
+import { CriaEnderecoUseCase } from './useCase/criaEndereco/criaEndereco.use-case';
+import { BuscaUmEnderecoPrincipalUseCase } from './useCase/buscaEnderecoPrincipal/buscaEnderecoPrincipla.use-case';
+import { EnderecoRepo } from './repository/enderecoRepo';
 
 @Module({
   imports: [
@@ -19,6 +22,10 @@ import { CriaPessoaUseCase } from './useCase/criaPessoa/criaPessoa.use-case';
     BuscaUmaPessoaUseCase,
     PessoaRepo,
     { provide: 'IPessoaRepo', useExisting: PessoaRepo },
+    CriaEnderecoUseCase,
+    BuscaUmEnderecoPrincipalUseCase,
+    EnderecoRepo,
+    { provide: 'IEnderecoRepo', useExisting: EnderecoRepo },
   ],
   controllers: [CriaPessoaController, BuscaUmaPessoaController],
 })
