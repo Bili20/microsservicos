@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Endereco } from './endereco.entity';
 
 @Entity('pessoa')
 export class Pessoa {
@@ -22,4 +23,7 @@ export class Pessoa {
 
   @Column({ nullable: false })
   sexo: string;
+
+  @OneToMany(() => Endereco, (endereco: Endereco) => endereco.pessoa)
+  endereco: Endereco;
 }

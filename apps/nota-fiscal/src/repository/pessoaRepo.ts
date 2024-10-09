@@ -9,8 +9,9 @@ export class PessoaRepo implements IPessoaRepo {
   ) {}
 
   async findOne(idPessoa: number): Promise<Pessoa> {
-    return await this.pessoarepo.query(
-      `SELECT * FROM pessoa WHERE id = ${idPessoa} JOIN endereco ON endereco.id_pessoa = pessoa.id`,
-    );
+    return await this.pessoarepo.findOne({
+      where: { id: idPessoa, endereco: { principal: true } },
+      relations: { endereco: true },
+    });
   }
 }

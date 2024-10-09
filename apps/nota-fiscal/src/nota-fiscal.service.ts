@@ -7,6 +7,7 @@ import { BuscaUmaPessoaUseCase } from './useCase/buscaUmaPessoa.use-case';
 import * as PDFDocument from 'pdfkit';
 import * as fs from 'fs';
 import { DadoEmpresa } from './constants/contants';
+import { BuscaUmProdutoUseCase } from './useCase/buscaUmProduto.use-case';
 
 @Injectable()
 export class NotaFiscalService {
@@ -14,6 +15,8 @@ export class NotaFiscalService {
   private readonly notaFiscalrepo: INotaFiscalRepo;
   @Inject(BuscaUmaPessoaUseCase)
   private readonly buscaUmaPessoaUseCase: BuscaUmaPessoaUseCase;
+  @Inject(BuscaUmProdutoUseCase)
+  private readonly buscaUmProdutoUseCase: BuscaUmProdutoUseCase;
 
   async execute(data: any, @Ctx() context: RmqContext) {
     const channel = context.getChannelRef();
@@ -33,7 +36,7 @@ export class NotaFiscalService {
     const pessoa = await this.buscaUmaPessoaUseCase.execute(
       pedido.param.id_pessoa,
     );
-    console.log(pessoa);
+
     const numeroNota = pedido.param.id_pedido;
     const dataCadastro = new Date().toLocaleDateString();
     const filePath = 'nota_fiscal' + numeroNota + '.pdf';
@@ -47,10 +50,10 @@ export class NotaFiscalService {
     doc.text(`Comprador: ${pessoa.nome}`);
     doc.text(`Documento: ${pessoa.documento}`);
     doc.text(`Endereço: `);
-    // doc.text(`Bairro: ${pessoa.endereco[0].bairro}`);
-    // doc.text(`Numero: ${pessoa.endereco[0].numero}`);
-    // doc.text(`Cidade: ${pessoa.endereco[0].cidade}`);
-    // doc.text(`Cep: ${pessoa.endereco[0].cep}`);
+    doc.text(`Bairro: ${pessoa.endereco[0].bairro}`);
+    doc.text(`Numero: ${pessoa.endereco[0].numero}`);
+    doc.text(`Cidade: ${pessoa.endereco[0].cidade}`);
+    doc.text(`Cep: ${pessoa.endereco[0].cep}`);
     doc.moveDown();
     doc.text(`Vendedor: ${DadoEmpresa.nome}`);
     doc.text(`CNPJ: ${DadoEmpresa.cnpj}`);
@@ -59,21 +62,25 @@ export class NotaFiscalService {
 
     doc.fontSize(18).text('Produtos', { align: 'center' });
     doc.text('-----------------------------------------------------------');
-    // for (const produto of produtos) {
-    //   doc.fontSize(12).text(`Nome: ${produto.nome}`);
-    //   doc.text(`Valor: R$ ${produto.valor}`);
-    //   doc.text(`Quantidade: ${produto.quantidade}`);
-    //   doc.moveDown();
-    // }
-    doc.fontSize(18).text(`Total: R$ ${pedido.total}`);
-    const writeStream = fs.createWriteStream('./notas/' + filePath);
+    let total: number = 0;
+    for (const data of pedido.param.produtos) {
+      const produto = await this.buscaUmProdutoUseCase.execute(data.id_produto);
+      doc.fontSize(12).text(`Nome: ${produto.nome}`);
+      doc.text(`Valor: R$ ${produto.valor}`);
+      doc.text(`Quantidade: ${data.quantidade}`);
+      doc.moveDown();
+      total = total + produto.valor * data.quantidade;
+    }
+    doc.fontSize(18).text(`Total: R$ ${total}`);
+    const writeStream = fs.createWriteStream(
+      './apps/nota-fiscal/notas/' + filePath,
+    );
 
     doc.pipe(writeStream);
     doc.end();
-    console.log('alo');
     writeStream.on('error', (err) => {
       throw new BadRequestException({
-        messgae: 'Erro ao salvar o arquivo:',
+        message: 'Erro ao salvar o arquivo:',
         err,
       });
     });
