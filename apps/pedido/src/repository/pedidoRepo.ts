@@ -12,4 +12,15 @@ export class PedidoRepo implements IPedidoRepo {
   async create(param: Pedido): Promise<Pedido> {
     return await this.pedidorepo.save(param);
   }
+
+  async findOne(id: number): Promise<Pedido> {
+    return await this.pedidorepo.findOne({
+      where: { id: id },
+      relations: { pedidoProduto: true },
+    });
+  }
+
+  async update(id: number, param: Pedido): Promise<void> {
+    await this.pedidorepo.update(id, param);
+  }
 }

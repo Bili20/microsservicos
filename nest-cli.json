@@ -53,6 +53,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/nota-fiscal/tsconfig.app.json"
       }
+    },
+    "historico": {
+      "type": "application",
+      "root": "apps/historico",
+      "entryFile": "main",
+      "sourceRoot": "apps/historico/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/historico/tsconfig.app.json"
+      }
     }
   }
 }

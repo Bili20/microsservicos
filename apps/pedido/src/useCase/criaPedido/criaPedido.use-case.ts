@@ -5,6 +5,7 @@ import { ProdutosQuantidadeDTO } from '../../models/dtos/produtosQuantidade.dto'
 import { CriaPedidoDto } from '../../models/dtos/criaPedido.dto';
 import { CriaPedidoProdutoUseCase } from '../criaPedidoProduto/criaPedidoProduto.use-case';
 import { ClientRMQ } from '@nestjs/microservices';
+import { StatusEnum } from 'apps/pedido/src/enum/status.enum';
 
 @Injectable()
 export class CriaPedidoUseCase {
@@ -18,6 +19,8 @@ export class CriaPedidoUseCase {
   public readonly instanceNotificacao: ClientRMQ;
   @Inject('NOTA_FISCAL_SERVICE')
   public readonly intanceNotaFiscal: ClientRMQ;
+  @Inject('HISTORICO_SERVICE')
+  public readonly intanceHistorico: ClientRMQ;
 
   async execute(param: CriaPedidoDto) {
     try {
@@ -36,6 +39,8 @@ export class CriaPedidoUseCase {
       });
       this.instanceNotificacao.emit('notificacao_queue', { param });
       this.intanceNotaFiscal.emit('nota_fiscal_queue', { param });
+      param.status = StatusEnum.EM_PROCESSAMENTO;
+      this.intanceHistorico.emit('historico_queue', { param });
     } catch (e) {
       throw new BadRequestException({ message: 'Erro ao gerar pedido.' });
     }

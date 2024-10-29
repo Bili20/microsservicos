@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/typeormConfig';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 import { Pedido } from './models/entities/pedido.entity';
-import { CriaPedidoUseCase } from './useCase/criaPedido/criaPedido.use-case';
+import { PedidoProduto } from './models/entities/pedidoProduto.entity';
+import { PedidoProdutoRepo } from './repository/pedidoProdutoRepo';
 import { PedidoRepo } from './repository/pedidoRepo';
 import { CriaPedidoController } from './useCase/criaPedido/criaPedido.controller';
+import { CriaPedidoUseCase } from './useCase/criaPedido/criaPedido.use-case';
 import { CriaPedidoProdutoUseCase } from './useCase/criaPedidoProduto/criaPedidoProduto.use-case';
-import { PedidoProdutoRepo } from './repository/pedidoProdutoRepo';
-import { PedidoProduto } from './models/entities/pedidoProduto.entity';
+import { AtualizaStatusPedidoUseCase } from './useCase/atualizaStatusPedido/atualizaStatusPedido.use-case';
+import { AtualizaStatusPedidoController } from './useCase/atualizaStatusPedido/atualizaStatusPedido.controller';
 
 @Module({
   imports: [
@@ -47,12 +49,24 @@ import { PedidoProduto } from './models/entities/pedidoProduto.entity';
           },
         },
       },
+      {
+        name: 'HISTORICO_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: ['amqp://admin:admin@localhost:5672'],
+          queue: 'historico_queue',
+          queueOptions: {
+            durable: true,
+          },
+        },
+      },
     ]),
     TypeOrmModule.forFeature([Pedido, PedidoProduto]),
   ],
-  controllers: [CriaPedidoController],
+  controllers: [CriaPedidoController, AtualizaStatusPedidoController],
   providers: [
     CriaPedidoUseCase,
+    AtualizaStatusPedidoUseCase,
     PedidoRepo,
     { provide: 'IPedidoRepo', useExisting: PedidoRepo },
     CriaPedidoProdutoUseCase,
