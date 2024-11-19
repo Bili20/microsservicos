@@ -11,6 +11,8 @@ import { CriaPedidoUseCase } from './useCase/criaPedido/criaPedido.use-case';
 import { CriaPedidoProdutoUseCase } from './useCase/criaPedidoProduto/criaPedidoProduto.use-case';
 import { AtualizaStatusPedidoUseCase } from './useCase/atualizaStatusPedido/atualizaStatusPedido.use-case';
 import { AtualizaStatusPedidoController } from './useCase/atualizaStatusPedido/atualizaStatusPedido.controller';
+import { BuscaPedidosUseCase } from './useCase/buscaPedidos/buscaPedidos.use-case';
+import { BuscaPedidosController } from './useCase/buscaPedidos/buscaPedidos.controller';
 
 @Module({
   imports: [
@@ -63,10 +65,15 @@ import { AtualizaStatusPedidoController } from './useCase/atualizaStatusPedido/a
     ]),
     TypeOrmModule.forFeature([Pedido, PedidoProduto]),
   ],
-  controllers: [CriaPedidoController, AtualizaStatusPedidoController],
+  controllers: [
+    CriaPedidoController,
+    BuscaPedidosController,
+    AtualizaStatusPedidoController,
+  ],
   providers: [
     CriaPedidoUseCase,
     AtualizaStatusPedidoUseCase,
+    BuscaPedidosUseCase,
     PedidoRepo,
     { provide: 'IPedidoRepo', useExisting: PedidoRepo },
     CriaPedidoProdutoUseCase,

@@ -23,4 +23,8 @@ export class PedidoRepo implements IPedidoRepo {
   async update(id: number, param: Pedido): Promise<void> {
     await this.pedidorepo.update(id, param);
   }
+
+  async find(): Promise<Pedido[]> {
+    return await this.pedidorepo.find({ take: 1000 });
+  }
 }

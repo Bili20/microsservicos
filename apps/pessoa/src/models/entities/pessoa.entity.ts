@@ -1,7 +1,12 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Endereco } from './endereco.entity';
+import { CriaPessoaDto } from '../dtos/criaPessoa.dto';
 @Entity('pessoa')
 export class Pessoa {
+  constructor(props?: CriaPessoaDto) {
+    Object.assign(this, props);
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 

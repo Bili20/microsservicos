@@ -7,6 +7,10 @@ import { AtualizaEstoqueController } from './useCase/atualizaEstoque/atualizaEst
 import { AtualizaEstoqueUseCase } from './useCase/atualizaEstoque/atualizaEstoque.use-case';
 import { CriaprodutoController } from './useCase/criaProduto/criaProduto.controller';
 import { CriaProdutoUseCase } from './useCase/criaProduto/criaProduto.use-case';
+import { BuscaProdutosController } from './useCase/buscaProdutos/buscaProdutos.controller';
+import { BuscaProdutosUseCase } from './useCase/buscaProdutos/buscaProdutos.use-case';
+import { BuscaUmProdutoUseCase } from './useCase/buscaUmProduto/buscaUmProduto.use-case';
+import { BuscaUmProdutoController } from './useCase/buscaUmProduto/buscaUmProduto.controller';
 
 @Module({
   imports: [
@@ -16,9 +20,16 @@ import { CriaProdutoUseCase } from './useCase/criaProduto/criaProduto.use-case';
   providers: [
     CriaProdutoUseCase,
     AtualizaEstoqueUseCase,
+    BuscaProdutosUseCase,
+    BuscaUmProdutoUseCase,
     ProdutoRepo,
     { provide: 'IProdutoRepo', useExisting: ProdutoRepo },
   ],
-  controllers: [CriaprodutoController, AtualizaEstoqueController],
+  controllers: [
+    CriaprodutoController,
+    BuscaProdutosController,
+    BuscaUmProdutoController,
+    AtualizaEstoqueController,
+  ],
 })
 export class ProdutoModule {}
