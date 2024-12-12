@@ -5,21 +5,21 @@ export class Pessoa {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false })
+  @Column({ name: 'nome', nullable: false })
   nome: string;
 
-  @Column({ nullable: false, unique: true })
+  @Column({ name: 'documento', nullable: false, unique: true })
   documento: string;
 
-  @Column({ nullable: false })
+  @Column({ name: 'data_nascimento', nullable: false })
   data_nacimento: Date;
 
-  @Column({ nullable: false, unique: true })
+  @Column({ name: 'email', nullable: false })
   email: string;
 
-  @Column({ nullable: false })
+  @Column({ name: 'telefone', nullable: false })
   telefone: string;
 
-  @Column({ nullable: false })
+  @Column({ name: 'sexo', nullable: false })
   sexo: string;
 }

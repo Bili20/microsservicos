@@ -11,6 +11,11 @@ import { CriaPessoaUseCase } from './useCase/criaPessoa/criaPessoa.use-case';
 import { CriaEnderecoUseCase } from './useCase/criaEndereco/criaEndereco.use-case';
 import { BuscaUmEnderecoPrincipalUseCase } from './useCase/buscaEnderecoPrincipal/buscaEnderecoPrincipla.use-case';
 import { EnderecoRepo } from './repository/enderecoRepo';
+import { BuscaPessoasUseCase } from './useCase/buscaPessoas/buscaPessoas.use-case';
+import { BuscaPessoasController } from './useCase/buscaPessoas/buscaPessoas.controller';
+import { AtualizaPessoaController } from './useCase/atualizaPessoa/atualizaPessoa.controller';
+import { AtualizaPessoaUseCase } from './useCase/atualizaPessoa/atualizaPessoa.use-case';
+import { AtualizaEnderecoUseCase } from './useCase/atualizaEndereco/atualizaEndereco.use-case';
 
 @Module({
   imports: [
@@ -20,6 +25,9 @@ import { EnderecoRepo } from './repository/enderecoRepo';
   providers: [
     CriaPessoaUseCase,
     BuscaUmaPessoaUseCase,
+    BuscaPessoasUseCase,
+    AtualizaPessoaUseCase,
+    AtualizaEnderecoUseCase,
     PessoaRepo,
     { provide: 'IPessoaRepo', useExisting: PessoaRepo },
     CriaEnderecoUseCase,
@@ -27,6 +35,11 @@ import { EnderecoRepo } from './repository/enderecoRepo';
     EnderecoRepo,
     { provide: 'IEnderecoRepo', useExisting: EnderecoRepo },
   ],
-  controllers: [CriaPessoaController, BuscaUmaPessoaController],
+  controllers: [
+    CriaPessoaController,
+    BuscaUmaPessoaController,
+    BuscaPessoasController,
+    AtualizaPessoaController,
+  ],
 })
 export class PessoaModule {}

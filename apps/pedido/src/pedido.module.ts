@@ -13,6 +13,8 @@ import { AtualizaStatusPedidoUseCase } from './useCase/atualizaStatusPedido/atua
 import { AtualizaStatusPedidoController } from './useCase/atualizaStatusPedido/atualizaStatusPedido.controller';
 import { BuscaPedidosUseCase } from './useCase/buscaPedidos/buscaPedidos.use-case';
 import { BuscaPedidosController } from './useCase/buscaPedidos/buscaPedidos.controller';
+import { BuscaUmPedidoUsecase } from './useCase/buscaUmPedido/buscaUmPedido.use-case';
+import { BuscaUmPedidoController } from './useCase/buscaUmPedido/buscaUmPedido.controller';
 
 @Module({
   imports: [
@@ -69,11 +71,13 @@ import { BuscaPedidosController } from './useCase/buscaPedidos/buscaPedidos.cont
     CriaPedidoController,
     BuscaPedidosController,
     AtualizaStatusPedidoController,
+    BuscaUmPedidoController,
   ],
   providers: [
     CriaPedidoUseCase,
     AtualizaStatusPedidoUseCase,
     BuscaPedidosUseCase,
+    BuscaUmPedidoUsecase,
     PedidoRepo,
     { provide: 'IPedidoRepo', useExisting: PedidoRepo },
     CriaPedidoProdutoUseCase,
